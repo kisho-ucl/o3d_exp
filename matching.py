@@ -110,8 +110,8 @@ voxel_size = 0.1  # 大きめのボクセルサイズで高速化
 #source = o3d.io.read_point_cloud("source.pcd").voxel_down_sample(voxel_size)
 
 
-source_fpfh = compute_fpfh_fast(source_down, voxel_size)
-target_fpfh = compute_fpfh_fast(target_down, voxel_size)
+source_fpfh = compute_fpfh(source_down, voxel_size)
+target_fpfh = compute_fpfh(target_down, voxel_size)
 
 # RANSACによる初期アライメント
 distance_threshold = voxel_size * 1.5
