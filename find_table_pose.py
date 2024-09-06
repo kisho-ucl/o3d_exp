@@ -34,24 +34,19 @@ def get_table_pose_from_points(points):
     radius = result.x[3]         # 半径
     normal_vector = result.x[4:] / np.linalg.norm(result.x[4:])  # 法線ベクトルを正規化
     z_axis = normal_vector
-
-    return center_point, radius, normal_vector
-
-def orthogonal_vectors(normal):
-    # 適当なベクトル (1, 0, 0) が法線ベクトルに直交するか確認
-    if np.allclose(normal, [1, 0, 0]) or np.allclose(normal, [-1, 0, 0]):
+    if np.allclose(z_axis, [1, 0, 0]) or np.allclose(z_axis, [-1, 0, 0]):
         v1 = np.array([0, 1, 0])
     else:
         v1 = np.array([1, 0, 0])
     
-    v2 = np.cross(normal, v1)
-    v1 = np.cross(normal, v2)
+    y_axis = np.cross(z_axis, v1)
+    x_axis = np.cross(z_axis, y_axis)
     
-    return v1, v2
+    return center_point, radius, normal_vector,x_axis,y_axis,z_axis
 
-center_point, radius, normal_vector = get_table_pose_from_points(points)
-z_axis = normal_vector
-x_axis, y_axis = orthogonal_vectors(normal_vector)
+
+center_point, radius, normal_vector,x_axis,y_axis,z_axis = get_table_pose_from_points(points)
+
 
 # 3Dプロットの設定
 fig = plt.figure()
@@ -79,6 +74,8 @@ circle_points = np.array([center_point + radius * (np.cos(t) * np.cross(normal_v
                                                     np.sin(t) * np.cross(normal_vector, np.cross(normal_vector, [1, 0, 0]))) 
                           for t in theta])
 ax.plot(circle_points[:, 0], circle_points[:, 1], circle_points[:, 2], color='cyan', label='Fitted Circle')
+
+
 
 
 
