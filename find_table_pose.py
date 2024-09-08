@@ -47,6 +47,7 @@ def get_table_pose_from_points(points):
 
 center_point, radius, normal_vector,x_axis,y_axis,z_axis = get_table_pose_from_points(points)
 
+normal_vector *= -1
 
 # 3Dプロットの設定
 fig = plt.figure()
